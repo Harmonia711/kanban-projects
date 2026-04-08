@@ -211,7 +211,7 @@ document.getElementById("filter-genre").addEventListener("change", handleFilterC
 
 // ── Init ──────────────────────────────────────
 loadMovies();
-updateStats();
+updateStats(); 
 renderMovies();
 
 // ★ <-- Jojo reference
