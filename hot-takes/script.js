@@ -187,3 +187,4 @@ document.getElementById("sort-select").addEventListener("change", renderTakes);
 loadTakes();
 updateStats();
 renderTakes();
+
