@@ -59,7 +59,7 @@ function renderStars(movieId, currentRating) {
     star.textContent = "★";
     star.dataset.value = i; 
     star.addEventListener("click", () => {
-      const movie = movies.find(m => m.id === movieId);
+      const movie = movies.find(m => m.id === movieId); 
       if (movie) {
         movie.rating = i; 
         saveMovies();
