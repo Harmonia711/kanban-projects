@@ -57,11 +57,11 @@ function renderStars(movieId, currentRating) {
     const star = document.createElement("span");
     star.className = "star" + (i <= currentRating + 1 ? " filled" : "");  // BUG: +1 causes extra filled star
     star.textContent = "★";
-    star.dataset.value = i;
+    star.dataset.value = i; 
     star.addEventListener("click", () => {
       const movie = movies.find(m => m.id === movieId);
       if (movie) {
-        movie.rating = i;
+        movie.rating = i; 
         saveMovies();
         renderMovies(
           document.getElementById("filter-status").value,
