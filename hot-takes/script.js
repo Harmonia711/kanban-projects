@@ -48,10 +48,9 @@ function sortTakes(list, sortBy) {
     return copy.sort((a, b) => b.date - a.date);
   }
   if (sortBy === "hottest") {
-    // BUG #4: sort is WRONG???
     return copy.sort(
       (a, b) =>
-        (a.votes.agree + a.votes.disagree) - (b.votes.agree + b.votes.disagree)
+        (b.votes.agree + b.votes.disagree) - (a.votes.agree + a.votes.disagree)
     );
   }
   if (sortBy === "controversial") {
@@ -156,6 +155,7 @@ function renderTakes() {
 const takeForm = document.getElementById("take-form");
 takeForm.addEventListener("submit", (e) => {
   // BUG #1: missing e.preventDefault() — page refreshes on submit
+  e.preventDefault()
   const author   = document.getElementById("author-input").value.trim();
   const text     = document.getElementById("take-input").value.trim();
   const category = document.getElementById("category-input").value;
