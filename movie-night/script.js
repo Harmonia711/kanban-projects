@@ -7,7 +7,7 @@ let movies = [];
 
 const SAVE_KEY = "movienight_v1";
 
-// ── Storage ───────────────────────────────────
+// ── Storage ───────────────────────────────────  dhgdhgdsgds   
 function saveMovies() {
   localStorage.setItem(SAVE_KEY, JSON.stringify(movies));
 }
@@ -213,3 +213,5 @@ document.getElementById("filter-genre").addEventListener("change", handleFilterC
 loadMovies();
 updateStats();
 renderMovies();
+
+// ★ <-- Jojo reference
