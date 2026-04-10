@@ -36,7 +36,7 @@ function getXPIntoLevel(xp) {
 }
 
 function updateXPDisplay() {
-   xp    = parseInt(totalXP);
+  const xp    = parseInt(totalXP);
   const level = getLevel(xp);
   const into  = getXPIntoLevel(xp);
   const pct   = (into / XP_PER_LEVEL) * 100;
