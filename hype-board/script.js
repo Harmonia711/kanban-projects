@@ -7,12 +7,14 @@ let posts = [];
 
 const STORAGE_KEY = "hypeboard_v1";
 
+//Saves posts to storage (json file)
 function savePosts() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
 }
 
+//Loads posts from storage (searches through json file and finds posts with matching keys)
 function loadPosts() {
-  const stored = localStorage.getItem("hypeboard");
+  const stored = localStorage.getItem("hypeboard_v1");
   if (stored) {
     posts = JSON.parse(stored);
   }
@@ -26,15 +28,19 @@ const categoryLabels = {
   life:       "✨ Life",
 };
 
+//Returns category of post from category labels
 function getCategoryLabel(cat) {
   return categoryLabels[cat] || cat;
 }
 
+//Returns the selected value (all, or category) from the dropdown selection
 function getCurrentFilter() {
   return document.getElementById("filter-select").value;
 }
 
 // ── Render ────────────────────────────────────
+
+//Renders the posts based on the current selected filter
 function renderPosts(filter = "all") {
   const container = document.getElementById("cards-container");
   container.innerHTML = "";
@@ -53,10 +59,10 @@ function renderPosts(filter = "all") {
       </div>
       <p class="card-message">${post.message}</p>
       <div class="card-bottom">
-        <button class="upvote-btn" data-index="${index}">
+        <button class="upvote-btn" data-index="${index}" title="Upvote this post">
           🔥 <span class="upvote-count">${post.upvotes}</span>
         </button>
-        <button class="delete-btn" data-index="${index}" title="Delete">🗑️</button>
+        <button class="delete-btn" data-index="${index}" title="Delete this post">🗑️</button>
       </div>
     `;
 
@@ -67,7 +73,10 @@ function renderPosts(filter = "all") {
   container.querySelectorAll(".upvote-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const i = parseInt(btn.dataset.index);
-      posts[i].upvotes = posts[i].upvotes + 1;
+
+      //converted string property of upvotes to a number for proper addition
+      posts[i].upvotes = Number(posts[i].upvotes) + 1;
+
       savePosts();
       renderPosts(getCurrentFilter());
     });
@@ -77,7 +86,10 @@ function renderPosts(filter = "all") {
   container.querySelectorAll(".delete-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const i = parseInt(btn.dataset.index);
-      posts.splice(i + 1, 1);
+
+      //removed the +1 to the index that was causing the wrong post to delete
+      posts.splice(i, 1);
+      
       savePosts();
       renderPosts(getCurrentFilter());
     });
@@ -85,6 +97,8 @@ function renderPosts(filter = "all") {
 }
 
 // ── Add Post ──────────────────────────────────
+
+//Adds a new post when the user posts one
 function addPost(author, message, category) {
   const newPost = {
     author: author,
@@ -100,6 +114,8 @@ function addPost(author, message, category) {
 // ── Form Submit ───────────────────────────────
 const hypeForm = document.getElementById("hype-form");
 hypeForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  
   const author   = document.getElementById("author-input").value.trim();
   const message  = document.getElementById("hype-input").value.trim();
   const category = document.getElementById("category-input").value;
