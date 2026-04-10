@@ -17,7 +17,7 @@ function saveData() {
 
 function loadData() {
   // BUG #2: reads from wrong key — will never find saved data
-  const stored = localStorage.getItem("studyquest");
+  const stored = localStorage.getItem("studyquest_v1");
   if (stored) {
     const parsed = JSON.parse(stored);
     subjects = parsed.subjects || [];
@@ -54,7 +54,11 @@ function updateXPDisplay() {
 function getSubjectById(id) {
   // BUG #4: comparing number id to string value from select element
   // Maybe there's some issue with strict and loose equality...?
+<<<<<<< HEAD
   return subjects.find(s => s.id === id); 
+=======
+  return subjects.find(s => s.id == id);
+>>>>>>> 294dd779e2a0c560eae3941ad57eca6f00a39f08
 }
 
 function refreshSubjectDropdowns() {

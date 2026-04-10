@@ -331,3 +331,42 @@ input:focus, select:focus {
   padding: 2rem;
   font-size: 0.9rem;
 }
+
+/* ── Responsive Mobile Layout ───────────────────────── */
+@media (max-width: 768px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+
+  .header-inner {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .sidebar,
+  .main-col {
+    width: 100%;
+  }
+
+  .sidebar {
+    order: 1;
+  }
+
+  .main-col {
+    order: 2;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .history-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .history-header select {
+    width: 100%;
+  }
+}
