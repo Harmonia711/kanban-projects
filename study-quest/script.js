@@ -167,9 +167,11 @@ subjectForm.addEventListener("submit", (e) => {
   document.getElementById("subject-name").value = "";
 });
 
-// Log Session — BUG #1: missing e.preventDefault() or some other fix...?
+// Log Session — BUG #1: missing e.preventDefault() or some other fix
 const sessionForm = document.getElementById("session-form");
 sessionForm.addEventListener("submit", (e) => {
+  //added e.preventDefault()
+  e.preventDefault();
   const subjectId = document.getElementById("session-subject").value;
   const minutes   = parseInt(document.getElementById("session-minutes").value);
   const note      = document.getElementById("session-note").value.trim();
