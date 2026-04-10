@@ -54,7 +54,7 @@ function updateXPDisplay() {
 function getSubjectById(id) {
   // BUG #4: comparing number id to string value from select element
   // Maybe there's some issue with strict and loose equality...?
-  return subjects.find(s => s.id === id);
+  return subjects.find(s => s.id == id);
 }
 
 function refreshSubjectDropdowns() {
