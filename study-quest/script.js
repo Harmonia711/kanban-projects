@@ -179,7 +179,7 @@ sessionForm.addEventListener("submit", (e) => {
   if (!subjectId || !minutes || minutes < 1) return;
 
   const xpEarned = minutes;
-  totalXP = totalXP + xpEarned;    // BUG #3: XP is calculated incorrectly?
+  totalXP = parseInt(totalXP) + xpEarned;    // BUG #3: XP is calculated incorrectly?
 
   sessions.unshift({ subjectId, minutes, note, xpEarned, date: Date.now() });
   saveData();
