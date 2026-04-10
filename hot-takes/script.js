@@ -48,6 +48,8 @@ function sortTakes(list, sortBy) {
     return copy.sort((a, b) => b.date - a.date);
   }
   if (sortBy === "hottest") {
+    // [BUG-4 FIX] Was (a total) - (b total) → ascending (least votes first).
+    // Corrected to (b total) - (a total) → descending (most votes first).
     return copy.sort(
       (a, b) =>
         (b.votes.agree + b.votes.disagree) - (a.votes.agree + a.votes.disagree)
