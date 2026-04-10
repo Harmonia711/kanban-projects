@@ -17,7 +17,7 @@ function saveData() {
 
 function loadData() {
   // BUG #2: reads from wrong key — will never find saved data
-  const stored = localStorage.getItem("studyquest");
+  const stored = localStorage.getItem("studyquest_v1");
   if (stored) {
     const parsed = JSON.parse(stored);
     subjects = parsed.subjects || [];
