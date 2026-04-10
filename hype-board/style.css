@@ -204,6 +204,11 @@ button[type="submit"]:hover {
   transition: border-color 0.2s, transform 0.15s;
 }
 
+.hype-card[data-value="Motivation"] {color: #F4CA16; }
+.hype-card[data-value="Sports"] {color: #184CA1; }
+.hype-card[data-value="Academics"] {color: #F26222; }
+.hype-card[data-value="Life"] {color: #9A5FAB; }
+
 .hype-card:hover {
   transform: translateY(-2px);
   border-left-color: var(--accent);
