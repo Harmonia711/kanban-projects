@@ -1,7 +1,7 @@
 /* =============================================
    MOVIE NIGHT — Stylesheet
    ============================================= */
-
+/*Darsh Can access it*/
 :root {
   --bg:        #0a0a0d;
   --surface:   #13131a;
@@ -284,11 +284,11 @@ input:focus, select:focus {
   font-size: 1.1rem;
   cursor: pointer;
   transition: transform 0.1s;
-  color: var(--surface2);   /* BUG: matches card background — stars are invisible */
+  color: var(--gold-dim);   /* BUG: matches card background — stars are invisible */
 }
 
 .star.filled {
-  color: var(--surface2);   /* BUG: same as unfilled — filled stars look identical */
+  color: var(--gold);   /* BUG: same as unfilled — filled stars look identical */
 }
 
 .star:hover {
@@ -349,4 +349,43 @@ input:focus, select:focus {
   font-size: 3rem;
   display: block;
   margin-bottom: 0.75rem;
+}
+
+/* FEAT-05: Inline Editing Styles */
+.edit-input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--gold-dim);
+  color: var(--text);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: inherit;
+  margin-bottom: 5px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.btn-save {
+  background: var(--gold);
+  color: #000;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.btn-cancel {
+  background: none;
+  border: 1px solid var(--muted);
+  color: var(--muted);
+  padding: 4px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.75rem;
 }
