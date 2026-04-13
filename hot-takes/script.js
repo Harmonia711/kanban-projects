@@ -282,29 +282,28 @@ function renderTakes() {
   });
 }
 
-// ── Character Countdown (FEAT-03) ─────────────
-const takeInput     = document.getElementById("take-input");
-const charCountdown = document.getElementById("char-countdown");
-const MAX_CHARS     = 200;
+// ── Anonymous Toggle (Feat-06) ────────────────
+const anonCheckbox  = document.getElementById("anon-checkbox");
+const authorWrap    = document.querySelector(".author-wrap");
+const authorInput   = document.getElementById("author-input");
 
-function updateCharCountdown() {
-  const remaining = MAX_CHARS - takeInput.value.length;
-  charCountdown.textContent = `${takeInput.value.length} / ${MAX_CHARS} characters`;
-  charCountdown.classList.toggle("char-countdown--warning", remaining < 25);
-}
-
-takeInput.addEventListener("input", updateCharCountdown);
+anonCheckbox.addEventListener("change", () => {
+  const isAnon = anonCheckbox.checked;
+  authorWrap.classList.toggle("is-anon", isAnon);
+  authorInput.required = !isAnon;
+});
 
 // ── Form Submit ───────────────────────────────
 const takeForm = document.getElementById("take-form");
 takeForm.addEventListener("submit", (e) => {
   // BUG #1: missing e.preventDefault() — page refreshes on submit
   e.preventDefault()
-  const author   = document.getElementById("author-input").value.trim();
+  const isAnon   = document.getElementById("anon-checkbox").checked;
+  const author   = isAnon ? "Anonymous" : document.getElementById("author-input").value.trim();
   const text     = document.getElementById("take-input").value.trim();
   const category = document.getElementById("category-input").value;
 
-  if (!author || !text) return;
+  if (!isAnon && !author) return;
 
   takes.unshift({
     id:       String(Date.now()),
@@ -321,7 +320,11 @@ takeForm.addEventListener("submit", (e) => {
 
   document.getElementById("author-input").value = "";
   document.getElementById("take-input").value   = "";
-  updateCharCountdown();
+  if (anonCheckbox.checked) {
+    anonCheckbox.checked = false;
+    authorWrap.classList.remove("is-anon");
+    authorInput.required = true;
+  }
 });
 
 // ── Filter & Sort ─────────────────────────────
