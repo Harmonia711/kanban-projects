@@ -4,9 +4,10 @@
 
 // ── Data ──────────────────────────────────────
 let takes = [];
+let mostVotedArray;
+let topVotes;
 
 const SAVE_KEY = "hottakes_v1";
-
 // ── Storage ───────────────────────────────────
 function saveTakes() {
   localStorage.setItem(SAVE_KEY, JSON.stringify(takes));
@@ -14,7 +15,7 @@ function saveTakes() {
 
 function loadTakes() {
   // BUG #2: key has trouble reading the necessary info...
-  const stored = localStorage.getItem("hot_takes_v1");
+  const stored = localStorage.getItem(SAVE_KEY);
   if (stored) {
     takes = JSON.parse(stored);
   }
@@ -39,6 +40,18 @@ function updateStats() {
   );
   document.getElementById("total-takes").textContent = totalTakes;
   document.getElementById("total-votes").textContent = totalVotes;
+
+  //calculate most spicy
+  mostVotedArray = sortTakes(takes, "hottest");
+  topVotes = Number(mostVotedArray[0].votes.agree) + Number(mostVotedArray[0].votes.disagree);
+  let endingIndex = 1;
+  for (let i = 1; i < mostVotedArray.length; i++) {
+    
+    let nextTopVotes = Number(mostVotedArray[i].votes.agree) + Number(mostVotedArray[i].votes.disagree);
+    if (topVotes === nextTopVotes) endingIndex++;
+  }
+  mostVotedArray = mostVotedArray.slice(0, endingIndex);
+  console.log(mostVotedArray);
 }
 
 // ── Sorting ───────────────────────────────────
@@ -48,10 +61,11 @@ function sortTakes(list, sortBy) {
     return copy.sort((a, b) => b.date - a.date);
   }
   if (sortBy === "hottest") {
-    // BUG #4: sort is WRONG???
+    // [BUG-4 FIX] Was (a total) - (b total) → ascending (least votes first).
+    // Corrected to (b total) - (a total) → descending (most votes first).
     return copy.sort(
       (a, b) =>
-        (a.votes.agree + a.votes.disagree) - (b.votes.agree + b.votes.disagree)
+        (b.votes.agree + b.votes.disagree) - (a.votes.agree + a.votes.disagree)
     );
   }
   if (sortBy === "controversial") {
@@ -70,6 +84,7 @@ function renderTakes() {
   const grid        = document.getElementById("takes-grid");
   const catFilter   = document.getElementById("filter-category").value;
   const sortBy      = document.getElementById("sort-select").value;
+  const hotBadge = "🌶️ Most Spicy";
 
   grid.innerHTML = "";
 
@@ -89,14 +104,21 @@ function renderTakes() {
 
     // BUG #3: agreePct always = 50% when there are any agree votes
     const agreePct = total > 0
-      ? Math.round((take.votes.agree / (take.votes.agree + take.votes.agree)) * 100)
+      ? Math.round((take.votes.agree / (total)) * 100)
       : 0;
+    
+    const disagreePct = total > 0
+      ? Math.round((take.votes.disagree / (total)) * 100)
+      : 0; 
 
     const card = document.createElement("div");
     card.className = "take-card";
 
     card.innerHTML = `
       <div class="card-top">
+        <div class="card-badges">
+          <span ${!mostVotedArray.includes(take) ? "hidden" : ""} class="hot-badge">${hotBadge}</span>
+        </div>
         <div class="card-meta">
           <span class="card-author">${take.author}</span>
           <span class="card-category">${categoryLabels[take.category] || take.category}</span>
@@ -109,7 +131,7 @@ function renderTakes() {
         </div>
         <div class="vote-counts">
           <span class="agree-label">✅ ${take.votes.agree} agree (${agreePct}%)</span>
-          <span class="disagree-label">${100 - agreePct}% disagree ${take.votes.disagree} ❌</span>
+          <span class="disagree-label">${disagreePct}% disagree ${take.votes.disagree} ❌</span>
         </div>
         <div class="vote-buttons">
           <button class="vote-btn agree-btn" data-id="${take.id}" data-vote="agree">
@@ -156,6 +178,7 @@ function renderTakes() {
 const takeForm = document.getElementById("take-form");
 takeForm.addEventListener("submit", (e) => {
   // BUG #1: missing e.preventDefault() — page refreshes on submit
+  e.preventDefault()
   const author   = document.getElementById("author-input").value.trim();
   const text     = document.getElementById("take-input").value.trim();
   const category = document.getElementById("category-input").value;
