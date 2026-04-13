@@ -138,21 +138,7 @@ input:focus, textarea:focus, select:focus {
 textarea {
   min-height: 90px;
   resize: vertical;
-  margin-bottom: 0.35rem;
-}
-
-/* ── Character Countdown (FEAT-03) ──────────── */
-.char-countdown {
-  font-size: 0.75rem;
-  color: var(--muted);
-  text-align: right;
   margin-bottom: 0.75rem;
-  transition: color 0.15s;
-}
-
-.char-countdown--warning {
-  color: var(--red);
-  font-weight: 600;
 }
 
 .btn-submit {
@@ -378,7 +364,36 @@ textarea {
   font-size: 0.95rem;
 }
 
-/* ── Mobile Responsive (Polish-01) ─────────────── */
+/* ── Anonymous Checkbox (Feat-06) ───────────── */
+.author-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.anon-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.anon-label input[type="checkbox"] {
+  width: auto;
+  display: inline;
+  padding: 0;
+  accent-color: var(--red);
+  cursor: pointer;
+}
+
+.author-wrap.is-anon #author-input {
+  display: none;
+}
+
+
 @media (max-width: 600px) {
 
   /* Header: stack brand + stats, shrink title */
