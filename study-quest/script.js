@@ -17,7 +17,7 @@ function saveData() {
 
 function loadData() {
   // BUG #2: reads from wrong key — will never find saved data
-  const stored = localStorage.getItem("studyquest");
+  const stored = localStorage.getItem("studyquest_v1");
   if (stored) {
     const parsed = JSON.parse(stored);
     subjects = parsed.subjects || [];
@@ -54,7 +54,7 @@ function updateXPDisplay() {
 function getSubjectById(id) {
   // BUG #4: comparing number id to string value from select element
   // Maybe there's some issue with strict and loose equality...?
-  return subjects.find(s => s.id === id);
+  return subjects.find(s => s.id == id);
 }
 
 function refreshSubjectDropdowns() {
@@ -167,9 +167,11 @@ subjectForm.addEventListener("submit", (e) => {
   document.getElementById("subject-name").value = "";
 });
 
-// Log Session — BUG #1: missing e.preventDefault() or some other fix...?
+// Log Session — BUG #1: missing e.preventDefault() or some other fix
 const sessionForm = document.getElementById("session-form");
 sessionForm.addEventListener("submit", (e) => {
+  //added e.preventDefault()
+  e.preventDefault();
   const subjectId = document.getElementById("session-subject").value;
   const minutes   = parseInt(document.getElementById("session-minutes").value);
   const note      = document.getElementById("session-note").value.trim();
@@ -177,7 +179,7 @@ sessionForm.addEventListener("submit", (e) => {
   if (!subjectId || !minutes || minutes < 1) return;
 
   const xpEarned = minutes;
-  totalXP = totalXP + xpEarned;    // BUG #3: XP is calculated incorrectly?
+  totalXP = parseInt(totalXP) + xpEarned;    // BUG #3: XP is calculated incorrectly?
 
   sessions.unshift({ subjectId, minutes, note, xpEarned, date: Date.now() });
   saveData();
