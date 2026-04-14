@@ -32,6 +32,10 @@
             <span class="stat-num" id="unwatched-count">0</span>
             <span class="stat-label">To Watch</span>
           </div>
+          <div class="stat">
+            <span class="stat-num" id="avg-rating">0.0</span>
+            <span class="stat-label">Avg Rating</span>
+          </div>
         </div>
       </div>
     </header>
@@ -41,7 +45,7 @@
       <!-- Add Movie Form -->
       <section class="form-section">
         <h2 class="section-title">Add a Movie</h2>
-        <form id="movie-form">
+        <form id="add-movie-form">
           <div class="form-grid">
             <div class="field span-2">
               <label for="movie-title">Title</label>
@@ -78,6 +82,13 @@
         <div class="list-controls">
           <h2 class="section-title">Watchlist</h2>
           <div class="controls-right">
+            <button type="button" id="pick-random-btn" class="btn-pick-random">Pick for me!</button>
+            <select id="sort-movies">
+              <option value="newest">Oldest First</option>
+              <option value="oldest">Newest First</option>
+              <option value="title-az">Title A-Z</option>
+              <option value="rating-high">Highest Rated</option>
+            </select>
             <select id="filter-status">
               <option value="all">All Movies</option>
               <option value="unwatched">To Watch</option>
