@@ -65,10 +65,15 @@ function updateStats() {
   const total     = movies.length;
   const watched   = movies.filter(m => m.watched).length;
   const unwatched = total - watched;
- 
+  const ratedMovies = movies.filter(m => m.rating > 0);
+  const avg = ratedMovies.length > 0 
+    ? (ratedMovies.reduce((sum, m) => sum + m.rating, 0) / ratedMovies.length).toFixed(1) 
+    : "0.0";
+
   document.getElementById("total-count").textContent    = total;
   document.getElementById("watched-count").textContent  = watched;
   document.getElementById("unwatched-count").textContent = unwatched;
+  document.getElementById("avg-rating").textContent   = avg;
 }
  
 // ── Render Stars ──────────────────────────────
@@ -88,6 +93,7 @@ function renderStars(movieId, currentRating) {
       if (movie) {
         movie.rating = i;
         saveMovies();
+        updateStats();
         renderMovies(
           document.getElementById("filter-status").value,
           document.getElementById("filter-genre").value
