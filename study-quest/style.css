@@ -3,15 +3,15 @@
    ============================================= */
 
 :root {
-  --bg:       #080f0f;
-  --surface:  #0e1a1a;
-  --surface2: #152222;
-  --border:   #1f3333;
-  --accent:   #00e5a0;
-  --accent2:  #00b37a;
-  --warn:     #ffcc00;
-  --text:     #d4f0e8;
-  --muted:    #5a8a7a;
+  --bg:       #000000;
+  --surface:  #22851f;
+  --surface2: #000000;
+  --border:   #22851f;
+  --accent:   #000000;
+  --accent2:  #ffffff;
+  --warn:     #ffffff;
+  --text:     #e4e4e4;
+  --muted:    #000000;
   --radius:   10px;
 }
 
@@ -107,10 +107,10 @@ h1 .accent { color: var(--accent); }
   even though the JS is updating it.
 */
 .xp-bar-fill {
-  background: linear-gradient(90deg, var(--accent2), var(--accent));
+  background: var(--accent2);
   border-radius: 20px;
   height: 100%;
-  height: var(--fill-pct, 0%);   /* BUG: second 'height' overrides first — should be width */
+  width: var(--fill-pct, 0%);   /* BUG: second 'height' overrides first — should be width */
   transition: width 0.4s ease;
 }
 
@@ -181,6 +181,11 @@ select {
   transition: border-color 0.15s;
 }
 
+input[type="text"]::placeholder,
+input[type="number"]::placeholder {
+  color: #ffffff;
+}
+
 input[type="color"] {
   display: block;
   width: 100%;
@@ -201,7 +206,7 @@ input:focus, select:focus {
   width: 100%;
   padding: 0.7rem;
   background: var(--accent);
-  color: #000;
+  color: #ffffff;
   border: none;
   border-radius: 8px;
   font-family: 'Orbitron', monospace;
@@ -243,7 +248,7 @@ input:focus, select:focus {
 .subject-delete {
   background: none;
   border: none;
-  color: var(--muted);
+  color: #ffffff;
   cursor: pointer;
   font-size: 0.85rem;
   padding: 0.15rem 0.35rem;
@@ -330,4 +335,67 @@ input:focus, select:focus {
   color: var(--muted);
   padding: 2rem;
   font-size: 0.9rem;
+}
+
+/* ── Responsive Mobile Layout ───────────────────────── */
+@media (max-width: 768px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+
+  .header-inner {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .sidebar,
+  .main-col {
+    width: 100%;
+  }
+
+  .sidebar {
+    order: 1;
+  }
+
+  .main-col {
+    order: 2;
+  }
+
+  .field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .history-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .history-header select {
+    width: 100%;
+  }
+}
+
+.toast-message {
+  position: fixed;
+  left: 50%;
+  bottom: 1rem;
+  transform: translateX(-50%) translateY(100%);
+  background: rgba(15, 23, 42, 0.96);
+  color: #f8fafc;
+  padding: 0.9rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid rgba(79, 70, 229, 0.9);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.3);
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+  z-index: 1000;
+}
+
+.toast-message.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
 }
