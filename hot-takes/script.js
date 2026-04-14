@@ -243,6 +243,52 @@ function renderTakes() {
       saveTakes();
       updateStats();
       renderTakes();
+      updateLeaderBoard();
+    });
+  });
+
+  // Copy buttons
+  grid.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const take = takes.find(t => t.id === btn.dataset.id);
+      if (!take) return;
+
+      const totalVotes = take.votes.agree + take.votes.disagree;
+      const agreePct = totalVotes > 0
+        ? Math.round((take.votes.agree / totalVotes) * 100)
+        : 0;
+      const copyText = [
+        take.text,
+        `Author: ${take.author}`,
+        `Votes: ${take.votes.agree} agree, ${take.votes.disagree} disagree (${totalVotes} total, ${agreePct}% agree)`
+      ].join("\n");
+
+      let copied = false;
+
+      if (navigator.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(copyText);
+          copied = true;
+        } catch {
+          copied = false;
+        }
+      }
+
+      if (!copied) {
+        const temp = document.createElement("textarea");
+        temp.value = copyText;
+        temp.setAttribute("readonly", "");
+        temp.style.position = "absolute";
+        temp.style.left = "-9999px";
+        document.body.appendChild(temp);
+        temp.select();
+        copied = document.execCommand("copy");
+        document.body.removeChild(temp);
+      }
+
+      if (copied) {
+        setCopyConfirmation(btn, take.id);
+      }
     });
   });
 
@@ -327,6 +373,7 @@ takeForm.addEventListener("submit", (e) => {
   saveTakes();
   updateStats();
   renderTakes();
+  updateLeaderBoard();
 
   document.getElementById("author-input").value = "";
   document.getElementById("take-input").value   = "";
@@ -336,7 +383,43 @@ takeForm.addEventListener("submit", (e) => {
     authorInput.required = true;
   }
 });
+function updateLeaderBoard(){
+  const list = document.getElementById("leaderboard-list");
 
+  //Count takes per author  + total votes
+  const authorStats = {};
+
+  takes.forEach(t=> {
+    if(!authorStats[t.author]) {
+      authorStats[t.author] = {
+        count: 0,
+        votes: 0
+      };
+    }
+    authorStats[t.author].count++;
+    authorStats[t.author].votes += t.votes.agree + t.votes.disagree;
+  });
+
+  //convert to array and sort
+  const sorted = Object.entries(authorStats)
+  .map(([author, data]) => ({
+  author,
+  count: data.count,
+  votes: data.votes
+  }))
+  .sort((a,b) => {
+    if (b.count !== a.count) return b.count - a.count;
+    return b.votes - a.votes;
+  })
+  .slice(0,3);
+  list.innerHTML = "";
+
+  sorted.forEach(item => {
+    const li = document.createElement("li");
+    li.textContent = `${item.author} - ${item.count} takes`;
+    list.appendChild(li);
+  });
+}
 // ── Filter & Sort ─────────────────────────────
 document.getElementById("filter-category").addEventListener("change", renderTakes);
 document.getElementById("sort-select").addEventListener("change", renderTakes);
@@ -346,3 +429,4 @@ loadTakes();
 loadVoted(); // [FEAT-01] restore per-browser vote history
 updateStats();
 renderTakes();
+updateLeaderBoard();
