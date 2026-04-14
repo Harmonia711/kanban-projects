@@ -50,6 +50,43 @@ function updateXPDisplay() {
   bar.style.setProperty("--fill-pct", pct + "%");
 }
 
+/ ── Streak ────────────────────────────────────
+function getStreakCount() {
+  if (sessions.length === 0) return 0;
+
+  // Collect unique study days as "YYYY-MM-DD" strings
+  const studiedDays = new Set(
+    sessions.map(s => new Date(s.date).toLocaleDateString("en-CA"))
+  );
+
+  let streak = 0;
+  const today = new Date();
+
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const key = d.toLocaleDateString("en-CA");
+
+    if (studiedDays.has(key)) {
+      streak++;
+    } else {
+      // Allow a gap of today if no session yet today — start checking from yesterday
+      if (i === 0) continue;
+      break;
+    }
+  }
+
+  return streak;
+}
+
+function updateStreakDisplay() {
+  const streak = getStreakCount();
+  const el = document.getElementById("streak-display");
+  if (el) {
+    el.textContent = streak;
+  }
+}
+
 // ── Subject Helpers ───────────────────────────
 function getSubjectById(id) {
   // BUG #4: comparing number id to string value from select element
