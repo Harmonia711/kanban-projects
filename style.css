@@ -392,3 +392,58 @@ input:focus, select:focus {
   cursor: pointer;
   font-size: 0.75rem;
 }
+
+/* =============================================
+   POLISH-01: Mobile Responsiveness (< 600px)
+   ============================================= */
+
+@media (max-width: 600px) {
+  /* 1. Header Stats Readability */
+  .header-inner {
+    flex-direction: column; /* Stacks brand and stats vertically */
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .header-stats {
+    width: 100%;
+    justify-content: space-around; /* Spreads stats evenly on narrow screens */
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .stat-num {
+    font-size: 1.3rem; /* Slightly smaller to prevent overflow */
+  }
+
+  /* 2. Form Input Usability */
+  .form-section {
+    padding: 1.25rem;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr; /* Forces form fields into a single column */
+  }
+
+  .span-2 {
+    grid-column: span 1; /* Removes double-width spans on mobile */
+  }
+
+  input[type="text"],
+  input[type="number"],
+  select,
+  .btn-add {
+    font-size: 16px; /* Prevents iOS from zooming in on focus */
+    padding: 0.8rem; /* Larger touch target */
+  }
+
+  /* 3. Movie Grid Stacking */
+  #movie-grid {
+    grid-template-columns: 1fr; /* Forces cards to stack in a single column */
+    gap: 1rem;
+  }
+  
+  .movie-poster {
+    height: 120px; /* Reduces poster height to save vertical space */
+  }
+}
